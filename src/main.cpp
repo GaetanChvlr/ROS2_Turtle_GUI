@@ -7,13 +7,13 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);   // QT
 
     // Turtlesim node en arriere plan
-    //system("ros2 run turtlesim turtlesim_node &");
+    system("ros2 run turtlesim turtlesim_node &");
     
     MainWindow mainWin;
     mainWin.show();
     int res = app.exec();
     
-    //system("killall -q turtlesim_node");
+    system("killall -q turtlesim_node");
     //rclcpp::shutdown();
     return res;
 }

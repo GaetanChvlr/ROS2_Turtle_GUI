@@ -9,7 +9,7 @@ find_package(turtlesim REQUIRED)
 include_directories(${rclcpp_INCLUDE_DIRS})
 include_directories(/usr/include/x86_64-linux-gnu/qt5)
 
-# Configuration Qt
+# Configuration Qts
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -22,12 +22,13 @@ qt5_wrap_ui(UI_HEADERS ${UI_FILES})
 
 add_executable(turtlesim_gui ${SOURCES} ${UI_HEADERS})
 
-target_link_libraries(turtlesim_gui Qt5::Widgets)
+target_link_libraries(turtlesim_gui Qt5::Widgets ${rclcpp_LIBS})
 
 ament_target_dependencies(turtlesim_gui rclcpp turtlesim)
-ament_package()
 
 install(TARGETS
   turtlesim_gui
   DESTINATION lib/${PROJECT_NAME}
 )
+
+ament_package()
