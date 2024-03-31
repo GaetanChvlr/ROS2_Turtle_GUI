@@ -31,7 +31,7 @@
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="2" column="0">
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="stopButton">
        <property name="styleSheet">
         <string notr="true">background-color : rgb(211, 215, 207)</string>
        </property>
@@ -47,7 +47,7 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="startButton">
        <property name="styleSheet">
         <string notr="true">background-color : rgb(211, 215, 207)</string>
        </property>

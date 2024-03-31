@@ -5,6 +5,7 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(turtlesim REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 include_directories(${rclcpp_INCLUDE_DIRS})
 include_directories(/usr/include/x86_64-linux-gnu/qt5)
@@ -24,7 +25,7 @@ add_executable(turtlesim_gui ${SOURCES} ${UI_HEADERS})
 
 target_link_libraries(turtlesim_gui Qt5::Widgets ${rclcpp_LIBS})
 
-ament_target_dependencies(turtlesim_gui rclcpp turtlesim)
+ament_target_dependencies(turtlesim_gui rclcpp turtlesim geometry_msgs)
 
 install(TARGETS
   turtlesim_gui

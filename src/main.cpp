@@ -3,7 +3,7 @@
 #include "qt/MainWindow.hpp"
 
 int main(int argc, char *argv[]) {
-    //rclcpp::init(argc,argv);        // ROS
+    rclcpp::init(argc,argv);        // ROS
     QApplication app(argc, argv);   // QT
 
     // Turtlesim node en arriere plan
@@ -14,6 +14,6 @@ int main(int argc, char *argv[]) {
     int res = app.exec();
     
     system("killall -q turtlesim_node");
-    //rclcpp::shutdown();
+    rclcpp::shutdown();
     return res;
 }

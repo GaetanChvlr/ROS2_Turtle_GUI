@@ -11,13 +11,19 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
 
-  <!--<depend>rclcpp</depend>
-  <depend>turtlesim</depend>-->
+  <depend>rclcpp</depend>
+  <depend>turtlesim</depend>
   <depend>Qt5</depend> 
+  <depend>geometry_msgs</depend>
 
   <build_depend>qtbase5-dev</build_depend> 
 
-  <exec_depend>rclcpp</exec_depend>
+  <!--<exec_depend>rclcpp</exec_depend>
   <exec_depend>turtlesim</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>-->
+
+  <export>                               
+   <build_type>ament_cmake</build_type>   
+  </export> 
 
 </package>
