@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     MainWindow mainWin;
     mainWin.show();
     int res = app.exec();
-    
+
     system("killall -q turtlesim_node");
     rclcpp::shutdown();
     return res;
