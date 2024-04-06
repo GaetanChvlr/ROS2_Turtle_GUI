@@ -20,7 +20,7 @@ L'application permet de démarrer et d'arrêter le mouvement de la tortue, de la
 ## Installation
 1. Cloner le dépôt dans votre workspace ROS2.
 
-2. Dans votre workspace ROS2, construire l'application en utilisant colcon :
+2. Dans votre workspace ROS2, construire l'application en utilisant colcon.
 ``` 
 colcon build --symlink-install
 ```
