@@ -27,6 +27,7 @@ private slots:
     void onStartBtnClick();
     void onStopBtnClick();
     void onGoBtnClick();
+    void onSpeedValueChange(float val);
     void poseCallback(const turtlesim::msg::Pose::SharedPtr msg);
 
 private:

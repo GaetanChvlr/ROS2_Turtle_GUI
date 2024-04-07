@@ -2,7 +2,7 @@
 
 ## Description
 Ce projet est une application Qt qui interagit avec un nœud Turtlesim ROS2. Il permet aux utilisateurs de contrôler le mouvement d'une tortue dans l'environnement Turtlesim en utilisant une interface graphique intuitive. 
-L'application permet de démarrer et d'arrêter le mouvement de la tortue, de la diriger vers une position cible, et de contrôler la vitesse de déplacement
+L'application permet de démarrer et d'arrêter le mouvement de la tortue, de la diriger vers une position cible, et de contrôler la vitesse de déplacement.
 
 ## Auteur
 - Gaetan Chevalier [https://github.com/GaetanChvlr]

@@ -1,5 +1,7 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
+#include <iomanip>
+#include <sstream>
 
 MainWindow::MainWindow(QWidget *parent) 
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -27,9 +29,19 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->stopButton, &QPushButton::clicked, this, &MainWindow::onStopBtnClick);
     connect(ui->goButton, &QPushButton::clicked, this, &MainWindow::onGoBtnClick);
 
+    // Liaison scrollBar - fonction
+    connect(ui->speedScrollBar, &QScrollBar::valueChanged, this, &MainWindow::onSpeedValueChange);
+
     // Position cible
     ui->targetX->setRange(0,11);
     ui->targetY->setRange(0,11);
+
+    // Etat initial vitesse
+    ui->speedScrollBar->setValue(50);
+
+    // Etat initial labels
+    ui->label_run->hide();
+    ui->label_stop->show();
 
 }
 
@@ -40,16 +52,30 @@ MainWindow::~MainWindow() {
 // Lecture pose courante
 void MainWindow::poseCallback(const turtlesim::msg::Pose::SharedPtr msg) {
     current_pose = *msg;
+    float theta_to_deg = current_pose.theta * 180.0 / 3.14159;
+
+    std::ostringstream stream;
+    stream << std::fixed << std::setprecision(2);
+    stream << "X: " << current_pose.x;
+    stream << " ,Y: " << current_pose.y;
+    stream << " ," << u8"\u03B8" << ": " << theta_to_deg;
+
+    ui->label_pos->setText(QString::fromStdString(stream.str()));
 }
 
 // Publication de message avec timer actif
 void MainWindow::publishMessage() {
     auto message = geometry_msgs::msg::Twist();
+    float currentSpeed = ui->speedScrollBar->value() / 25.0;
 
     switch(current_mode) {
         case ACTIF: {        // CERCLE
-            message.linear.x = 1.0;  
-            message.angular.z = 1.0; 
+            message.linear.x = 1.0 * currentSpeed;  
+            message.angular.z = 1.0 * currentSpeed; 
+
+            ui->label_run->show();
+            ui->label_stop->hide();
+
             break;
         }
         case CIBLE: {         // ATTEINTE POSITION CIBLE
@@ -65,15 +91,21 @@ void MainWindow::publishMessage() {
             float ang_cible = atan2(y_err,x_err);
             float ang_err = ang_cible - current_pose.theta;
 
+            ui->label_run->show();
+            ui->label_stop->hide();
+
             if (std::abs(ang_err) > 0.2) {
-                message.angular.z = k_ang * ang_err; 
+                message.angular.z = k_ang * ang_err * currentSpeed; 
             } 
-            else if (d > 0.2) {
-                message.linear.x = k_lin * d;
+            else if (d > 0.1) {
+                message.linear.x = k_lin * d * currentSpeed;
             }
             else {
                 current_mode = INACTIF;
                 publish_timer->stop(); 
+
+                ui->label_run->hide();
+                ui->label_stop->show();
             }
             break;
         }
@@ -87,15 +119,16 @@ void MainWindow::publishMessage() {
 // Demarrage
 void MainWindow::onStartBtnClick() {
     current_mode = ACTIF;
-    running = true;
     publish_timer->start(100);
 }
 
 // Arrêt
 void MainWindow::onStopBtnClick() {
     current_mode = INACTIF;
-    running = false;
     publish_timer->stop();
+
+    ui->label_run->hide();
+    ui->label_stop->show();
 
     auto stop_message = geometry_msgs::msg::Twist();
     stop_message.linear.x = 0.0;
@@ -106,7 +139,15 @@ void MainWindow::onStopBtnClick() {
 // Deplacement vers position cible
 void MainWindow::onGoBtnClick(){
     current_mode = CIBLE;
-    running = true;
     publish_timer->start(100);
+}
+
+// Modification de la vitesse
+void MainWindow::onSpeedValueChange(float val){
+    float currentSpeed = val / 50.0;
+
+    std::ostringstream stream;
+    stream << "x " << currentSpeed;
+    ui->label_speed->setText(QString::fromStdString(stream.str()));
 }
 
